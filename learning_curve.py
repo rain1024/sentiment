@@ -8,6 +8,7 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC, NuSVC, LinearSVC
 from underthesea.feature_engineering.text import Text
 from underthesea.word_sent.tokenize import tokenize
+from pylab import rcParams
 
 df = pd.read_excel("data/data.xlsx")
 X = list(df["text"])
@@ -22,8 +23,8 @@ def convert_text(x):
 
 
 X = [convert_text(x) for x in X]
-transformer = TfidfVectorizer()
-# transformer = TfidfVectorizer(min_df=0.4, tokenizer=tokenize)
+# transformer = TfidfVectorizer()
+transformer = TfidfVectorizer(min_df=0.4, tokenizer=tokenize)
 # transformer = TfidfVectorizer(tokenizer=tokenize)
 X = transformer.fit_transform(X)
 
@@ -43,10 +44,14 @@ class ExperimentLab:
     def run(self):
         ir = numpy.arange(0.4, 1, 0.05)
         N = [int(i * len(Y)) for i in ir]
-        clfs = [SVC(), NuSVC(), GaussianNB()]
-        linestyles = ['-', '--', 'dotted']
-        models = ["SVC", "NuSVC", "GaussianNB"]
+        clfs = [SVC(), NuSVC(), LinearSVC(), GaussianNB()]
+        models = ["SVC", "NuSVC", "LinearSVC", "GaussianNB"]
+        colors = ['red', 'green', 'yellow', 'blue']
         legends = []
+
+        fig, ax = plt.subplots(figsize=(10, 6))
+        box = ax.get_position()
+        ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
         for i, clf in enumerate(clfs):
             f1_scores = []
             accuracy_scores = []
@@ -55,12 +60,12 @@ class ExperimentLab:
                 f1, accuracy = e.run()
                 f1_scores.append(f1)
                 accuracy_scores.append(accuracy)
-            plt.gca().set_color_cycle(['red', 'green'])
-            plt.plot(N, f1_scores, ls=linestyles[i])
-            plt.plot(N, accuracy_scores, ls=linestyles[i])
+            plt.gca().set_color_cycle([colors[i], colors[i]])
+            plt.plot(N, f1_scores, ls='solid')
+            plt.plot(N, accuracy_scores, ls='dotted')
             legends.append("{} f1".format(models[i]))
             legends.append("{} accuracy".format(models[i]))
-        plt.legend(legends)
+        ax.legend(legends, loc='center left', bbox_to_anchor=(1, 0.5))
         plt.xlabel("Train size")
         plt.ylabel("Score")
         plt.savefig("learning_curve.png")
