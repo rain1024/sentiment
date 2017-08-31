@@ -3,12 +3,15 @@ from underthesea.util.file_io import read
 import json
 from functools import reduce
 
+
 def transform_item(item, labels):
-    output = {}
+    output = dict()
     output["text"] = item["text"]
     for label in labels:
         output[label] = 1 if label in item["labels"] else 0
     return output
+
+
 if __name__ == '__main__':
     df = pd.DataFrame()
     data = json.loads(read("data/data.json"))
