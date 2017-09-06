@@ -25,7 +25,7 @@ def transform_text(text, label, labels):
     return output
 
 
-if __name__ == '__main__':
+def create():
     # train dataset
     FOLDER = dirname(__file__)
     data_folder = join(FOLDER, "data", "Train_Full")
@@ -40,4 +40,15 @@ if __name__ == '__main__':
     columns = ["text"] + labels
     df = pd.DataFrame(dataset, columns=columns)
     df.to_excel("data/data.xlsx", index=False, encoding="utf-8")
+
+
+def sample_dataset():
+    df = pd.read_excel("data/data.xlsx")
+    df.sample(10000).to_excel("data/data_10k.xlsx", index=False,
+                              encoding="utf-8")
+
+
+if __name__ == '__main__':
+    # create_dataset()
+    sample_dataset()
     print(0)
