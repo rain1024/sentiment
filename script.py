@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 from underthesea.dictionary import Dictionary
 from underthesea.feature_engineering.text import Text
-
+from xgboost import XGBClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC, NuSVC, LinearSVC
 
@@ -31,8 +31,8 @@ def load_dataset(data_file):
 
 
 # data_file = "data/data_3k.xlsx"
-# data_file = "data/data_10k.xlsx"
-data_file = "data/data.xlsx"
+data_file = "data/data_10k.xlsx"
+# data_file = "data/data.xlsx"
 X, Y = load_dataset(data_file)
 
 flow = Flow()
@@ -40,8 +40,8 @@ flow = Flow()
 flow.data(X, Y)
 
 # transformer = TfidfVectorizer()
-dictionary = Dictionary.Instance()
-vocabulary = list(dictionary.words.keys())
+# dictionary = Dictionary.Instance()
+# vocabulary = list(dictionary.words.keys())
 # transformer = TfidfVectorizer(ngram_range=(1, 2), max_features=4000)
 transformer = TfidfVectorizer(ngram_range=(1, 3), max_features=4000)
 # transformer = TfidfVectorizer(default_vocabulary=vocabulary, ngram_range=(1, 3), max_features=4000)
@@ -54,7 +54,8 @@ flow.transform(transformer)
 
 # flow.add_model(Model(OneVsRestClassifier(GaussianNB()), "GaussianNB"))
 # flow.add_model(Model(OneVsRestClassifier(NuSVC(nu=0.99)), "NuSVC"))
-flow.add_model(Model(OneVsRestClassifier(SVC()), "SVC"))
+# flow.add_model(Model(OneVsRestClassifier(SVC()), "SVC"))
+flow.add_model(Model(OneVsRestClassifier(XGBClassifier(nthread=8)), "XGBoost"))
 
 flow.set_learning_curve(0.7, 1, 0.3)
 

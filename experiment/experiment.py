@@ -2,6 +2,7 @@ from numpy import mean
 from sklearn.cross_validation import cross_val_score, train_test_split
 from sklearn.metrics import accuracy_score, f1_score, make_scorer
 from sklearn.preprocessing import MultiLabelBinarizer
+import time
 
 from experiment.validation import TrainTestSplitValidation, CrossValidation
 
@@ -17,6 +18,7 @@ class Experiment:
         accuracy_scores = []
         f1_scores = []
 
+        start = time.time()
         def score_func(y_true, y_pred, **kwargs):
             accuracy_scores.append(accuracy_score(y_true, y_pred, **kwargs))
             f1_scores.append(f1_score(y_true, y_pred, average='micro', **kwargs))
@@ -38,6 +40,8 @@ class Experiment:
             print(f1_scores)
             print("Accuracy: {:.4f}".format(accuracy))
             print(accuracy_scores)
+            end = time.time()
+            print("Running Time: {:.2f} seconds.".format(end - start))
         except Exception as e:
             print(e)
             f1 = 0
