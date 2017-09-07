@@ -16,15 +16,11 @@ class Experiment:
     def run(self):
         accuracy_scores = []
         f1_scores = []
+
+        def score_func(y_true, y_pred, **kwargs):
+            accuracy_scores.append(accuracy_score(y_true, y_pred, **kwargs))
+            f1_scores.append(f1_score(y_true, y_pred, average='micro', **kwargs))
         try:
-            f1 = []
-            accuracy = []
-
-            def score_func(y_true, y_pred, **kwargs):
-                accuracy_scores.append(accuracy_score(y_true, y_pred, **kwargs))
-                f1_scores.append(f1_score(y_true, y_pred, average='micro', **kwargs))
-                return 0
-
             scorer = make_scorer(score_func)
             if isinstance(self.validation, TrainTestSplitValidation):
                 X = self.X.toarray()
@@ -33,20 +29,15 @@ class Experiment:
                 self.clf.fit(X_train, Y_train)
                 Y_pred = self.clf.predict(X_test)
                 score_func(Y_test, Y_pred)
-                f1 = mean(f1_scores)
-                accuracy = mean(accuracy_scores)
-                pass
             elif isinstance(self.validation, CrossValidation):
                 cross_val_score(self.clf, self.X.toarray(), self.Y, cv=self.validation.cv, scoring=scorer)
-                print("")
-                print("F1: {:.4f}".format(mean(f1_scores)))
-                print(f1_scores)
-                f1.append(mean(f1_scores))
-                print("Accuracy: {:.4f}".format(mean(accuracy_scores)))
-                print(accuracy_scores)
-                accuracy.append(mean(accuracy_scores))
-                f1 = mean(f1_scores)
-                accuracy = mean(accuracy_scores)
+            f1 = mean(f1_scores)
+            accuracy = mean(accuracy_scores)
+            print("")
+            print("F1: {:.4f}".format(f1))
+            print(f1_scores)
+            print("Accuracy: {:.4f}".format(accuracy))
+            print(accuracy_scores)
         except Exception as e:
             print(e)
             f1 = 0

@@ -25,7 +25,9 @@ class Flow:
         self.Y = Y
 
     def transform(self, transformer):
-        self.X = transformer.fit_transform(self.X)
+        self.X = transformer.text2vec(self.X)
+        print("X Shape: ", self.X.shape)
+        # transformer.save()
 
     def add_model(self, model):
         self.models.append(model)
@@ -40,9 +42,9 @@ class Flow:
         colors = ['red', 'green', 'yellow', 'blue']
         legends = []
 
-        fig, ax = plt.subplots(figsize=(10, 6))
-        box = ax.get_position()
-        ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+        # fig, ax = plt.subplots(figsize=(10, 6))
+        # box = ax.get_position()
+        # ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
         for i, model in enumerate(self.models):
             f1_scores = []
             accuracy_scores = []
@@ -54,16 +56,16 @@ class Flow:
                 f1, accuracy = e.run()
                 f1_scores.append(f1)
                 accuracy_scores.append(accuracy)
-            plt.gca().set_color_cycle([colors[i], colors[i]])
-            plt.plot(N, f1_scores, ls='solid')
-            plt.plot(N, accuracy_scores, ls='dotted')
+            # plt.gca().set_color_cycle([colors[i], colors[i]])
+            # plt.plot(N, f1_scores, ls='solid')
+            # plt.plot(N, accuracy_scores, ls='dotted')
             legends.append("{} f1".format(model.name))
             legends.append("{} accuracy".format(model.name))
-        ax.legend(legends, loc='center left', bbox_to_anchor=(1, 0.5))
-        plt.xlabel("Train size")
-        plt.ylabel("Score")
-        plt.savefig("learning_curve.png")
-        plt.show()
+        # ax.legend(legends, loc='center left', bbox_to_anchor=(1, 0.5))
+        # plt.xlabel("Train size")
+        # plt.ylabel("Score")
+        # plt.savefig("learning_curve.png")
+        # plt.show()
 
     def visualize(self):
         pass
