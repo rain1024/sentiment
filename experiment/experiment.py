@@ -19,15 +19,14 @@ class Experiment:
         f1_scores = []
 
         start = time.time()
+
         def score_func(y_true, y_pred, **kwargs):
             accuracy_scores.append(accuracy_score(y_true, y_pred, **kwargs))
             f1_scores.append(f1_score(y_true, y_pred, average='micro', **kwargs))
         try:
             scorer = make_scorer(score_func)
             if isinstance(self.validation, TrainTestSplitValidation):
-                X = self.X.toarray()
-                Y = self.Y
-                X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=self.validation.test_size)
+                X_train, X_test, Y_train, Y_test = train_test_split(self.X, self.Y, test_size=self.validation.test_size)
                 self.clf.fit(X_train, Y_train)
                 Y_pred = self.clf.predict(X_test)
                 score_func(Y_test, Y_pred)
@@ -43,7 +42,8 @@ class Experiment:
             end = time.time()
             print("Running Time: {:.2f} seconds.".format(end - start))
         except Exception as e:
-            print(e)
+            raise(e)
+            print("Error:", e)
             f1 = 0
             accuracy = 0
         return f1, accuracy
