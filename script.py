@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 from underthesea.dictionary import Dictionary
 from underthesea.feature_engineering.text import Text
@@ -31,9 +32,9 @@ def load_dataset(data_file):
     return X, Y
 
 if __name__ == '__main__':
-    # data_file = "data/data_3k.xlsx"
-    # data_file = "data/data_10k.xlsx"
-    data_file = "data/data.xlsx"
+    data_file = "data/data_3k.xlsx"
+    data_file = "data/data_10k.xlsx"
+    # data_file = "data/data.xlsx"
     X, Y = load_dataset(data_file)
 
     flow = Flow()
@@ -64,6 +65,16 @@ if __name__ == '__main__':
     flow.set_validation(TrainTestSplitValidation(test_size=0.1))
     # flow.set_validation(CrossValidation(cv=5))
 
-    flow.run()
+    # flow.validation()
+
+    # model_name = "GaussianNB"
+    model_name = "FastText"
+    flow.save_model(model_name, filename="fasttext.model")
+
+
+    # filename = "fasttext.model"
+    # clf = pickle.load(open(filename, "rb"))
+    # y_pred = clf.predict(X)
+    print(0)
 
     # flow.train()

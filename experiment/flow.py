@@ -25,7 +25,7 @@ class Flow:
         self.Y = Y
 
     def transform(self, transformer):
-        self.X = transformer.text2vec(self.X)
+        self.X = transformer.text2vec(self.X).toarray()
         print("X Shape: ", self.X.shape)
         # transformer.save()
 
@@ -38,7 +38,7 @@ class Flow:
     def set_validation(self, validation):
         self.validation = validation
 
-    def run(self):
+    def validation(self):
         colors = ['red', 'green', 'yellow', 'blue']
         legends = []
 
@@ -75,3 +75,8 @@ class Flow:
         Train dataset with transformer and model
         """
         pass
+
+    def save_model(self, model_name, filename):
+        model = [model for model in self.models if model.name == model_name][0]
+        e = Experiment(self.X, self.Y, model.clf, None)
+        e.save(filename)

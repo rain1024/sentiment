@@ -3,8 +3,9 @@ from sklearn.cross_validation import cross_val_score, train_test_split
 from sklearn.metrics import accuracy_score, f1_score, make_scorer
 from sklearn.preprocessing import MultiLabelBinarizer
 import time
-
+import dill
 from experiment.validation import TrainTestSplitValidation, CrossValidation
+from model import save_model
 
 
 class Experiment:
@@ -22,16 +23,21 @@ class Experiment:
 
         def score_func(y_true, y_pred, **kwargs):
             accuracy_scores.append(accuracy_score(y_true, y_pred, **kwargs))
-            f1_scores.append(f1_score(y_true, y_pred, average='micro', **kwargs))
+            f1_scores.append(
+                f1_score(y_true, y_pred, average='micro', **kwargs))
+
         try:
             scorer = make_scorer(score_func)
             if isinstance(self.validation, TrainTestSplitValidation):
-                X_train, X_test, Y_train, Y_test = train_test_split(self.X, self.Y, test_size=self.validation.test_size)
+                X_train, X_test, Y_train, Y_test = train_test_split(self.X,
+                                                                    self.Y,
+                                                                    test_size=self.validation.test_size)
                 self.clf.fit(X_train, Y_train)
                 Y_pred = self.clf.predict(X_test)
                 score_func(Y_test, Y_pred)
             elif isinstance(self.validation, CrossValidation):
-                cross_val_score(self.clf, self.X.toarray(), self.Y, cv=self.validation.cv, scoring=scorer)
+                cross_val_score(self.clf, self.X.toarray(), self.Y,
+                                cv=self.validation.cv, scoring=scorer)
             f1 = mean(f1_scores)
             accuracy = mean(accuracy_scores)
             print("")
@@ -42,9 +48,13 @@ class Experiment:
             end = time.time()
             print("Running Time: {:.2f} seconds.".format(end - start))
         except Exception as e:
-            raise(e)
+            raise (e)
             print("Error:", e)
             f1 = 0
             accuracy = 0
         return f1, accuracy
 
+    def save(self, filename):
+        self.clf.fit(self.X, self.Y)
+        save_model(filename, self.clf)
+        pass
