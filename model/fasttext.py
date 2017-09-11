@@ -13,6 +13,16 @@ class FastTextClassifier(ClassifierMixin, BaseEstimator):
         self.estimator = None
 
     def fit(self, X, y):
+        """Fit FastText according to X, y
+
+        Parameters:
+        ----------
+        X : list of text
+            each item is a text
+        y: list
+           each item is either a label (in multi class problem) or list of
+           labels (in multi label problem)
+        """
         datafile = "temp.train"
         X = [x.replace("\n", " ") for x in X]
         lines = ["__label__{} , {}".format(j, i) for i, j in zip(X, y)]
@@ -22,7 +32,6 @@ class FastTextClassifier(ClassifierMixin, BaseEstimator):
         bin_file = join("fasttext_bin", self.state)
         self.estimator = ft.supervised(datafile, bin_file)
         os.remove(datafile)
-        pass
 
     def __getstate__(self):
         try:
