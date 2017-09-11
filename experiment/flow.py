@@ -1,4 +1,5 @@
 import numpy
+from sklearn.metrics import accuracy_score
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC, NuSVC, LinearSVC
 import matplotlib.pyplot as plt
@@ -61,11 +62,11 @@ class Flow:
             # plt.plot(N, accuracy_scores, ls='dotted')
             legends.append("{} f1".format(model.name))
             legends.append("{} accuracy".format(model.name))
-        # ax.legend(legends, loc='center left', bbox_to_anchor=(1, 0.5))
-        # plt.xlabel("Train size")
-        # plt.ylabel("Score")
-        # plt.savefig("learning_curve.png")
-        # plt.show()
+            # ax.legend(legends, loc='center left', bbox_to_anchor=(1, 0.5))
+            # plt.xlabel("Train size")
+            # plt.ylabel("Score")
+            # plt.savefig("learning_curve.png")
+            # plt.show()
 
     def visualize(self):
         pass
@@ -76,7 +77,12 @@ class Flow:
         """
         pass
 
-    def save_model(self, model_name, filename):
+    def save_model(self, model_name, model_filename):
         model = [model for model in self.models if model.name == model_name][0]
         e = Experiment(self.X, self.Y, model.clf, None)
-        e.save(filename)
+        e.save(model_filename)
+
+    def test(self, X, y_true, model):
+        y_predict = model.predict(X)
+        y_true = [item[0] for item in y_true]
+        print(accuracy_score(y_true, y_predict))

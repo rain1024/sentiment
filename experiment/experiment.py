@@ -54,7 +54,5 @@ class Experiment:
             accuracy = 0
         return f1, accuracy
 
-    def save(self, filename):
-        self.clf.fit(self.X, self.Y)
-        save_model(filename, self.clf)
-        pass
+    def save(self, filename=None):
+        self.clf.fit(self.X, self.Y, model_filename=filename)

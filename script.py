@@ -11,7 +11,7 @@ from experiment.flow import Flow, Model
 from experiment.transformer import TfidfVectorizer, TfidfDictionaryVectorizer
 
 from experiment.validation import TrainTestSplitValidation, CrossValidation
-from model.fasttext import FastTextClassifier
+from model.fasttext import FastTextClassifier, FastTextPredictor
 
 
 def load_dataset(data_file):
@@ -26,20 +26,22 @@ def load_dataset(data_file):
         return ""
 
     X = [convert_text(x) for x in X]
-    Y = df.drop("text", 1)
+    y = df.drop("text", 1)
     # labels = Y.columns
-    Y = Y.values
-    return X, Y
+    columns = y.columns
+    temp = y.apply(lambda _: _ > 0)
+    y = list(temp.apply(lambda _: list(columns[_.values]), axis=1))
+    return X, y
 
 if __name__ == '__main__':
-    data_file = "data/data_3k.xlsx"
-    data_file = "data/data_10k.xlsx"
-    # data_file = "data/data.xlsx"
-    X, Y = load_dataset(data_file)
+    # data_file = "data/data_3k.xlsx"
+    # data_file = "data/data_10k.xlsx"
+    data_file = "data/data.xlsx"
+    X, y = load_dataset(data_file)
 
     flow = Flow()
 
-    flow.data(X, Y)
+    flow.data(X, y)
 
     # transformer = TfidfVectorizer()
     # dictionary = Dictionary.Instance()
@@ -58,7 +60,8 @@ if __name__ == '__main__':
     # flow.add_model(Model(OneVsRestClassifier(NuSVC(nu=0.99)), "NuSVC"))
     # flow.add_model(Model(OneVsRestClassifier(SVC()), "SVC"))
     # flow.add_model(Model(OneVsRestClassifier(XGBClassifier(nthread=8)), "XGBoost"))
-    flow.add_model(Model(OneVsRestClassifier(FastTextClassifier()), "FastText"))
+    # flow.add_model(Model(OneVsRestClassifier(FastTextClassifier()), "FastText"))
+    flow.add_model(Model(FastTextClassifier(), "FastText"))
 
     # flow.set_learning_curve(0.7, 1, 0.3)
 
@@ -69,12 +72,8 @@ if __name__ == '__main__':
 
     # model_name = "GaussianNB"
     model_name = "FastText"
-    flow.save_model(model_name, filename="fasttext.model")
+    flow.save_model(model_name="FastText", model_filename="fasttext.model")
 
-
-    # filename = "fasttext.model"
-    # clf = pickle.load(open(filename, "rb"))
-    # y_pred = clf.predict(X)
-    print(0)
-
-    # flow.train()
+    model = FastTextPredictor.Instance()
+    X_test, y_test = X, y
+    flow.test(X_test, y_test, model)
