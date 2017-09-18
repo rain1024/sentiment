@@ -1,5 +1,7 @@
 import pandas as pd
 import pickle
+
+from os.path import join
 from sklearn.multiclass import OneVsRestClassifier, OneVsOneClassifier
 from underthesea.dictionary import Dictionary
 from underthesea.feature_engineering.text import Text
@@ -11,7 +13,7 @@ from experiment.flow import Flow, Model
 from experiment.transformer import TfidfVectorizer, TfidfDictionaryVectorizer
 
 from experiment.validation import TrainTestSplitValidation, CrossValidation
-from model.fasttext import FastTextClassifier, FastTextPredictor
+from model.model_fasttext import FastTextClassifier, FastTextPredictor
 
 
 def load_dataset(data_file):
@@ -34,9 +36,9 @@ def load_dataset(data_file):
     return X, y
 
 if __name__ == '__main__':
-    # data_file = "data/data_3k.xlsx"
-    # data_file = "data/data_10k.xlsx"
-    data_file = "data/data.xlsx"
+    # data_file = "corpus/data_3k.xlsx"
+    # data_file = "corpus/data_10k.xlsx"
+    data_file = "corpus/data.xlsx"
     X, y = load_dataset(data_file)
 
     flow = Flow()
@@ -72,7 +74,8 @@ if __name__ == '__main__':
 
     # model_name = "GaussianNB"
     model_name = "FastText"
-    flow.save_model(model_name="FastText", model_filename="fasttext.model")
+    model_filename = join("results", "fasttext", "fasttext.model")
+    flow.save_model(model_name="FastText", model_filename=model_filename)
 
     model = FastTextPredictor.Instance()
     X_test, y_test = X, y
