@@ -73,9 +73,9 @@ if __name__ == '__main__':
     # flow.validation()
 
     # model_name = "GaussianNB"
-    model_name = "FastText"
-    model_filename = join("results", "fasttext", "fasttext.model")
-    flow.save_model(model_name="FastText", model_filename=model_filename)
+    # model_name = "FastText"
+    # model_filename = join("results", "fasttext", "fasttext.model")
+    # flow.save_model(model_name="FastText", model_filename=model_filename)
 
     model = FastTextPredictor.Instance()
     X_test, y_test = X, y
