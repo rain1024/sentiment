@@ -35,11 +35,11 @@ class FastTextClassifier(ClassifierMixin, BaseEstimator):
         if model_filename:
             self.estimator = ft.supervised(train_file, model_filename)
         else:
-            self.estimator = ft.supervised(train_file)
+            self.estimator = ft.supervised(train_file, "model.bin")
         os.remove(train_file)
 
     def predict(self, X):
-        return
+        return self.estimator.predict(X)
 
     def predict_proba(self, X):
         output_ = self.estimator.predict_proba(X)
