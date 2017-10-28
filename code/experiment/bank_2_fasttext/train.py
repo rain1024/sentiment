@@ -8,7 +8,6 @@ from main import load_dataset
 from model.model_fasttext import FastTextClassifier
 from models.fb_bank_2_act_fasttext.model_fasttext import FastTextPredictor
 
-
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(dirname(__file__)))), "data", "fb_bank_act_2", "corpus", "data.xlsx")
     X, y = load_dataset(data_file)
