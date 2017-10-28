@@ -20,7 +20,7 @@ scipy==0.19.1
 six==1.10.0
 sklearn==0.0
 underthesea==1.1.5
-underthesea-flow==0.1.0
+underthesea-flow==0.1.1a0
 Unidecode==0.4.21
 xgboost==0.6a2
 xlrd==1.1.0
