@@ -39,9 +39,14 @@ def convert_to_corpus(rows):
                 item[label] = 0
         data.append(item)
     df = pd.DataFrame(data)
-    file = join(dirname(__file__), "corpus", "data.xlsx")
+    n = df.shape[0]
+    train_size = 0.8
+    split = int(train_size * n)
+    train_file = join(dirname(__file__), "corpus", "train.xlsx")
+    test_file = join(dirname(__file__), "corpus", "test.xlsx")
     columns = ["text"] + labels
-    df.to_excel(file, index=False, columns=columns)
+    df.ix[:split, :].to_excel(train_file, index=False, columns=columns)
+    df.ix[split:, :].to_excel(test_file, index=False, columns=columns)
 
 
 def raw_to_corpus():

@@ -3,13 +3,19 @@ import matplotlib.pyplot as plt
 from os.path import join
 from pylab import rcParams
 
-input = "corpus/data.xlsx"
-output = "eda/"
-df = pd.read_excel(input, encoding='sys.getfilesystemencoding()')
-print("Dataset is loaded!")
-rcParams['figure.figsize'] = 13, 6
-df.drop("text", axis=1).sum().plot.barh()
-plt.savefig(join(output, "labels_distribution.png"))
-plt.show()
+output_folder = "eda/"
 
 
+def analyze(input, name):
+    input = "corpus/" + input
+    df = pd.read_excel(input, encoding='sys.getfilesystemencoding()')
+    print("Dataset {} is loaded!".format(name))
+    print(df.shape)
+    rcParams['figure.figsize'] = 13, 6
+    df.drop("text", axis=1).sum().plot.barh()
+    plt.savefig(join(output_folder, "{}_labels_distribution.png".format(name)))
+    # plt.show()
+
+analyze("train.xlsx", "train")
+analyze("test.xlsx", "test")
+analyze("data.xlsx", "data")
