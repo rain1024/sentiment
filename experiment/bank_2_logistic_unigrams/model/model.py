@@ -12,5 +12,3 @@ def predict(X):
     else:
         return y_transform.inverse_transform(
             estimator.predict(x_transform.transform([X])))[0]
-
-print(0)
