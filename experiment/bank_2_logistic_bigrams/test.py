@@ -5,8 +5,8 @@ import json
 
 from underthesea.util.file_io import write
 
-from experiment.bank_2_logistic_ngrams.load_data import load_dataset
-from experiment.bank_2_logistic_ngrams.model.model import predict
+from load_data import load_dataset
+from model.model import predict
 from sklearn.metrics import confusion_matrix
 
 data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_act_2",
