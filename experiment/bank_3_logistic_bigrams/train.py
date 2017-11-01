@@ -4,10 +4,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from underthesea_flow.flow import Flow
 from underthesea_flow.model import Model
-from underthesea_flow.transformer.tfidf import TfidfVectorizer
 from underthesea_flow.validation.validation import TrainTestSplitValidation
 from sklearn.preprocessing import MultiLabelBinarizer
 from load_data import load_dataset
+from transformer import TfidfVectorizer
 
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_act_3", "corpus", "train.xlsx")
