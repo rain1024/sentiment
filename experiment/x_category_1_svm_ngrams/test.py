@@ -4,13 +4,13 @@ import json
 from underthesea.util.file_io import write
 from load_data import load_dataset
 
-from model import identify_dialog_act
+from model import classify
 
 data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_category",
                  "corpus", "test.xlsx")
 X_test, y_test = load_dataset(data_file)
 y_test = [tuple(item) for item in y_test]
-y_pred = identify_dialog_act(X_test)
+y_pred = classify(X_test)
 
 
 def accuracy_score(TP, FP, TN, FN):

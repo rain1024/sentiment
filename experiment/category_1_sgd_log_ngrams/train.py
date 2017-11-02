@@ -21,7 +21,7 @@ if __name__ == '__main__':
     flow.transform(MultiLabelBinarizer())
     flow.transform(transformer)
 
-    flow.add_model(Model(OneVsRestClassifier(SGDClassifier()), "SGD"))
+    flow.add_model(Model(OneVsRestClassifier(SGDClassifier(loss='log')), "SGD"))
 
     # flow.set_learning_curve(0.7, 1, 0.3)
     flow.set_validation(TrainTestSplitValidation(test_size=0.1))
