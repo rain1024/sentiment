@@ -2,12 +2,12 @@ from os.path import dirname, join
 
 from languageflow.flow import Flow
 from languageflow.model import Model
+from languageflow.transformer.tfidf import TfidfVectorizer
 from languageflow.validation.validation import TrainTestSplitValidation
 from sklearn.linear_model import LogisticRegression
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
 from load_data import load_dataset
-from transformer import TfidfVectorizer
 from sklearn.linear_model import SGDClassifier
 
 if __name__ == '__main__':
@@ -30,5 +30,4 @@ if __name__ == '__main__':
     flow.set_validation(TrainTestSplitValidation(test_size=0.1))
 
     flow.train()
-    flow.export_folder = "model"
-    flow.export(model_name="SGD")
+    flow.export(model_name="SGD", export_folder="model")
