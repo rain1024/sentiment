@@ -1,5 +1,4 @@
 from os.path import dirname, join
-
 from languageflow.flow import Flow
 from languageflow.model import Model
 from languageflow.transformer.tfidf import TfidfVectorizer
@@ -13,8 +12,8 @@ from sklearn.linear_model import SGDClassifier
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_category", "corpus", "train.xlsx")
     X, y = load_dataset(data_file)
-    n = 10
-    X, y = X[:n], y[:n]
+    # n = 30
+    # X, y = X[:n], y[:n]
     flow = Flow()
     flow.log_folder = "log"
 
