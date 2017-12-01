@@ -1,4 +1,4 @@
-# Text Classification Experiments
+# Sentiment Analysis Experiments
 
 This repository contains experiments in Vietnamese text classification problems. It is a part of [underthesea](https://github.com/magizbox/underthesea) project.
 
