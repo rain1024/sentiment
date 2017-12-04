@@ -1,85 +1,52 @@
-from os.path import join, dirname
-import pandas as pd
-import json
-from underthesea.util.file_io import write
-from model import classify
-from load_data import load_dataset
-
-data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_sentiment",
-                 "corpus", "data.xlsx")
-X_test, y_test = load_dataset(data_file)
-y_test = [tuple(item) for item in y_test]
-y_pred = classify(X_test)
+from unittest import TestCase
+from model import sentiment
 
 
-def accuracy_score(TP, FP, TN, FN):
-    return round((TP + TN) / (TP + FP + TN + FN), 2)
+class TestSentiment(TestCase):
+    def test_sentiment(self):
+        sentence = "Thật tuyệt vời"
+        tags = "POSITIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
+    def test_sentiment_1(self):
+        sentence = "Nhân viên BIDV dễ thương nhiệt tình lắm ạ"
+        tags = "POSITIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
-def precision_score(TP, FP, TN, FN):
-    try:
-        return round(TP / (TP + FP), 2)
-    except:
-        return 0
+    def test_sentiment_2(self):
+        sentence = "Không tin tưởng vào ngân hàng BIDV."
+        tags = "NEGATIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
+    def test_sentiment_3(self):
+        sentence = "Dịch vụ rắc rối."
+        tags = "NEGATIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
-def recall_score(TP, FP, TN, FN):
-    try:
-        return round(TP / (TP + FN), 2)
-    except:
-        return 0
+    def test_sentiment_4(self):
+        sentence = "Thật sự mình rất hài lòng khi làm việc với VietcomBank"
+        actual = sentiment(sentence)
+        expected = "POSITIVE"
+        self.assertEquals(expected, actual[0])
 
+    def test_sentiment_5(self):
+        sentence = "Vietcombank là lũ lừa đảo"
+        tags = "NEGATIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
-def f1_score(TP, FP, TN, FN):
-    p = precision_score(TP, FP, TN, FN)
-    r = recall_score(TP, FP, TN, FN)
-    try:
-        f1 = round((2 * p * r) / (p + r), 2)
-    except:
-        f1 = 0
-    return f1
+    def test_sentiment_6(self):
+        sentence = "Đkmm"
+        tags = "NEGATIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
 
-
-# generate score
-labels = set(sum(y_test + y_pred, ()))
-score = {}
-for label in labels:
-    score[label] = {}
-    TP, FP, TN, FN = (0, 0, 0, 0)
-
-    for i in range(len(y_test)):
-        if label in y_test[i]:
-            if label in y_pred[i]:
-                TP += 1
-            else:
-                FN += 1
-        else:
-            if label in y_pred[i]:
-                FP += 1
-            else:
-                TN += 1
-    score[label] = {
-        "TP": TP,
-        "FP": FP,
-        "TN": TN,
-        "FN": FN,
-        "accuracy": accuracy_score(TP, FP, TN, FN),
-        "precision": precision_score(TP, FP, TN, FN),
-        "recall": recall_score(TP, FP, TN, FN),
-        "f1": f1_score(TP, FP, TN, FN),
-    }
-
-df = pd.DataFrame.from_dict(score)
-df.T.to_excel("inspect/score.xlsx", columns=["TP", "TN", "FP", "FN", "accuracy", "precision", "recall", "f1"])
-
-# generate result
-result = {
-    "X_test": X_test,
-    "y_test": y_test,
-    "y_pred": y_pred,
-    "score": score
-}
-
-print(score)
-content = json.dumps(result, ensure_ascii=False)
-write("inspect/result.json", content)
+    def test_sentiment_7(self):
+        sentence = "éo tin"
+        tags = "NEGATIVE"
+        actual = sentiment(sentence)
+        self.assertEquals(tags, actual[0])
