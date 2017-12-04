@@ -2,15 +2,14 @@ from os.path import join, dirname
 import pandas as pd
 import json
 from underthesea.util.file_io import write
+from model import sentiment
 from load_data import load_dataset
 
-from model import classify
-
-data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_category",
-                 "corpus", "test.xlsx")
+data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_sentiment",
+                 "corpus", "data.xlsx")
 X_test, y_test = load_dataset(data_file)
 y_test = [tuple(item) for item in y_test]
-y_pred = classify(X_test)
+y_pred = sentiment(X_test)
 
 
 def accuracy_score(TP, FP, TN, FN):
