@@ -1,27 +1,30 @@
 # Sentiment Analysis Experiments
 
-This repository contains experiments in Vietnamese text classification problems. It is a part of [underthesea](https://github.com/magizbox/underthesea) project.
+This repository contains experiments in Vietnamese sentiment analysis problems. It is a part of [underthesea](https://github.com/magizbox/underthesea) project.
 
-# Reports
+# Results
 
-![](https://img.shields.io/badge/F1-86.7%25-red.svg)
+![](https://img.shields.io/badge/F1-0.46-red.svg)
 
-# Usage
+| Model             | F1   |
+|-------------------|------|
+| SVM + ngrams(1,3) | 0.46 |
+
+# Reproduce
 
 Setup Environment
 
 ```
 # clone project
-$ git clone git@github.com:magizbox/underthesea.ner.git
+$ git clone https://github.com/undertheseanlp/sentiment
 
 # create environment
-$ cd underthesea.ner
-$ conda create -n uts.classification python=3.4
+$ cd sentiment
+$ conda create -n sentiment python=3.5
 $ pip install -r requirements.txt
-$ pip install git+https://github.com/magizbox/underthesea.flow
+$ pip install git+https://github.com/undertheseanlp/languageflow
 ```
 
 # Related Works
 
-* Detail Reports, [link](https://docs.google.com/spreadsheets/d/1PUnNBVywHbG4fpqSzBAV6jPWFNOKaiIQEKWM-W2mxiE/edit?usp=sharing)
-* Vietnamese Text Classification publications, [link](https://github.com/magizbox/underthesea/wiki/Vietnamese-NLP-Publications#text-classification)
+* Vietnamese Sentiment Analysis publications, [link](https://github.com/magizbox/underthesea/wiki/Vietnamese-NLP-Publications#sentiment-analysis)
