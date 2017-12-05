@@ -1,16 +1,19 @@
-from os.path import join, dirname
-import pandas as pd
 import json
-from underthesea.util.file_io import write
-from load_data import load_dataset
+from os.path import join, dirname
 
-from model import classify
+import pandas as pd
+import sklearn
+from model import aspect
+from sklearn.preprocessing import MultiLabelBinarizer
+from underthesea.util.file_io import write
+
+from bank_sentiment.load_data import load_dataset
 
 data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_aspect",
                  "corpus", "test.xlsx")
 X_test, y_test = load_dataset(data_file)
 y_test = [tuple(item) for item in y_test]
-y_pred = classify(X_test)
+y_pred = aspect(X_test)
 
 
 def accuracy_score(TP, FP, TN, FN):
@@ -84,3 +87,8 @@ result = {
 print(score)
 content = json.dumps(result, ensure_ascii=False)
 write("inspect/result.json", content)
+
+binarizer = MultiLabelBinarizer()
+y_test = binarizer.fit_transform(y_test)
+y_pred = binarizer.transform(y_pred)
+print("F1 Weighted:", sklearn.metrics.f1_score(y_test, y_pred, average='weighted'))

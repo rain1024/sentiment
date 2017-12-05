@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from experiment.aspect_svm_ngrams.model import aspect
+from bank_sentiment import aspect
 
 
 class TestCategory(TestCase):

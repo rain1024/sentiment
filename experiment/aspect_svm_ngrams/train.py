@@ -4,10 +4,11 @@ from languageflow.flow import Flow
 from languageflow.model import Model
 from languageflow.transformer.tfidf import TfidfVectorizer
 from languageflow.validation.validation import TrainTestSplitValidation
+from sklearn.linear_model import SGDClassifier
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
-from load_data import load_dataset
-from sklearn.linear_model import SGDClassifier
+
+from aspect_svm_ngrams.load_data import load_dataset
 
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_aspect", "corpus", "train.xlsx")
