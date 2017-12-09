@@ -9,10 +9,11 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 | Model                           | F1    |
 |---------------------------------|-------|
 | GaussianNB + ngrams(1,3)        | 0.26  |
-| SVM+ ngrams(1,3)                | 0.43  |
-| MultinomialNB+ ngrams(1,3)      | 0.013 |
-| BernoulliNB+ ngrams(1,3)        | 0.008 |
-| LogisticRegression+ ngrams(1,3) | 0.044 |
+| SVM + ngrams(1,3)               | 0.43  |
+| LogisticRegression + ngrams(1,3)| 0.044 |
+| MultinomialNB + ngrams(1,3)     | 0.013 |
+| BernoulliNB + ngrams(1,3)       | 0.008 |
+
 
 # Reproduce
 
