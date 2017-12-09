@@ -4,8 +4,8 @@ import pandas as pd
 import sklearn
 from sklearn.preprocessing import MultiLabelBinarizer
 from underthesea.util.file_io import write
-from bank_sentiment_svm.load_data import load_dataset
-from bank_sentiment_svm.model import sentiment
+from load_data import load_dataset
+from model import sentiment
 
 
 def accuracy_score(TP, FP, TN, FN):
