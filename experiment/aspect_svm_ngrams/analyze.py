@@ -7,7 +7,7 @@ from model import aspect
 from sklearn.preprocessing import MultiLabelBinarizer
 from underthesea.util.file_io import write
 
-from bank_sentiment.load_data import load_dataset
+from bank_sentiment_svm.load_data import load_dataset
 
 data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_aspect",
                  "corpus", "test.xlsx")
