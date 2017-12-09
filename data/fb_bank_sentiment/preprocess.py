@@ -6,7 +6,7 @@ import numpy as np
 
 
 def filter_post(post):
-    if len(post["bank_sentiment"]) > 0:
+    if len(post["bank_sentiment_svm"]) > 0:
         return True
     else:
         return False
@@ -15,17 +15,17 @@ def filter_post(post):
 def transform_post(post):
     post["meta"] = json.loads(post["meta"])
     try:
-        post["bank_sentiment"] = json.loads(post["bank_sentiment"])
+        post["bank_sentiment_svm"] = json.loads(post["bank_sentiment_svm"])
     except:
-        post["bank_sentiment"] = []
-    post["bank_sentiment"] = list({"{}#{}".format(item["aspect"], item["polarity"]) for item in post["bank_sentiment"]})
+        post["bank_sentiment_svm"] = []
+    post["bank_sentiment_svm"] = list({"{}#{}".format(item["aspect"], item["polarity"]) for item in post["bank_sentiment_svm"]})
     return post
 
 
 def get_row(post):
     row = {}
     row["text"] = post["text"]
-    row["labels"] = post["bank_sentiment"]
+    row["labels"] = post["bank_sentiment_svm"]
     return row
 
 
@@ -61,7 +61,6 @@ def raw_to_corpus():
     posts = [transform_post(p) for p in posts]
     posts = [p for p in posts if filter_post(p)]
     rows = [get_row(p) for p in posts]
-    np.random.shuffle(rows)
     convert_to_corpus(rows)
 
 

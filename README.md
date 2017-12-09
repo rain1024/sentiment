@@ -4,11 +4,15 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 
 # Results
 
-![](https://img.shields.io/badge/F1-0.46-red.svg)
+![](https://img.shields.io/badge/F1-0.43-red.svg)
 
-| Model             | F1   |
-|-------------------|------|
-| SVM + ngrams(1,3) | 0.46 |
+| Model                           | F1    |
+|---------------------------------|-------|
+| GaussianNB + ngrams(1,3)        | 0.26  |
+| SVM+ ngrams(1,3)                | 0.43  |
+| MultinomialNB+ ngrams(1,3)      | 0.013 |
+| BernoulliNB+ ngrams(1,3)        | 0.008 |
+| LogisticRegression+ ngrams(1,3) | 0.044 |
 
 # Reproduce
 

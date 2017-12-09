@@ -6,7 +6,7 @@ from underthesea.util.file_io import read
 
 
 def filter_post(post):
-    if len(post["bank_sentiment"]) > 0:
+    if len(post["bank_sentiment_svm"]) > 0:
         return True
     else:
         return False
@@ -15,18 +15,18 @@ def filter_post(post):
 def transform_post(post):
     post["meta"] = json.loads(post["meta"])
     try:
-        post["bank_sentiment"] = json.loads(post["bank_sentiment"])
+        post["bank_sentiment_svm"] = json.loads(post["bank_sentiment_svm"])
     except:
-        post["bank_sentiment"] = []
-    post["bank_sentiment"] = list(
-        set([item["polarity"] for item in post["bank_sentiment"] if item["polarity"]]))
+        post["bank_sentiment_svm"] = []
+    post["bank_sentiment_svm"] = list(
+        set([item["polarity"] for item in post["bank_sentiment_svm"] if item["polarity"]]))
     return post
 
 
 def get_row(post):
     row = {}
     row["text"] = post["text"]
-    row["labels"] = post["bank_sentiment"]
+    row["labels"] = post["bank_sentiment_svm"]
     return row
 
 
