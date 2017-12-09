@@ -19,4 +19,5 @@ def load_dataset(data_file):
     columns = y.columns
     temp = y.apply(lambda _: _ > 0)
     y = list(temp.apply(lambda _: list(columns[_.values]), axis=1))
+    y = [item[0] for item in y]
     return X, y
