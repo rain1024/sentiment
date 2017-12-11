@@ -6,7 +6,7 @@ from languageflow.validation.validation import TrainTestSplitValidation
 from sklearn.linear_model import SGDClassifier
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
-from bank_sentiment_svm.load_data import load_dataset
+from load_data import load_dataset
 
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_sentiment", "corpus", "train.xlsx")
