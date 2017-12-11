@@ -1,8 +1,8 @@
 import json
 from os.path import join, dirname
 import pandas as pd
-import sklearn
-from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn import metrics
+from sklearn.preprocessing import LabelBinarizer
 from underthesea.util.file_io import write
 from load_data import load_dataset
 from model import sentiment
@@ -36,27 +36,27 @@ def f1_score(TP, FP, TN, FN):
     return f1
 
 
-data_file = join(dirname(dirname(dirname(__file__))), "data", "fb_bank_sentiment",
-                 "corpus", "test.xlsx")
+data_file = join(dirname(dirname(dirname(__file__))), "data",
+                 "fb_bank_sentiment", "corpus", "test.xlsx")
 X_test, y_test = load_dataset(data_file)
-y_test = [tuple(item) for item in y_test]
 y_pred = sentiment(X_test)
 
 # generate score
-labels = set(sum(y_test + y_pred, ()))
+labels = set(y_test + y_pred)
 score = {}
 for label in labels:
     score[label] = {}
     TP, FP, TN, FN = (0, 0, 0, 0)
 
-    for i in range(len(y_test)):
-        if label in y_test[i]:
-            if label in y_pred[i]:
+    for i, label_test in enumerate(y_test):
+        label_pred = y_pred[i]
+        if label == label_test:
+            if label == label_pred:
                 TP += 1
             else:
                 FN += 1
         else:
-            if label in y_pred[i]:
+            if label == label_pred:
                 FP += 1
             else:
                 TN += 1
@@ -72,7 +72,9 @@ for label in labels:
     }
 
 df = pd.DataFrame.from_dict(score)
-df.T.to_excel("analyze/score.xlsx", columns=["TP", "TN", "FP", "FN", "accuracy", "precision", "recall", "f1"])
+df.T.to_excel("analyze/score.xlsx",
+              columns=["TP", "TN", "FP", "FN", "accuracy", "precision",
+                       "recall", "f1"])
 
 # generate result
 result = {
@@ -86,7 +88,8 @@ print(score)
 content = json.dumps(result, ensure_ascii=False)
 write("analyze/result.json", content)
 
-binarizer = MultiLabelBinarizer()
+binarizer = LabelBinarizer()
 y_test = binarizer.fit_transform(y_test)
 y_pred = binarizer.transform(y_pred)
-print("F1 Weighted:", sklearn.metrics.f1_score(y_test, y_pred, average='weighted'))
+print("F1 Weighted:",
+      metrics.f1_score(y_test, y_pred, average='weighted'))

@@ -36,15 +36,15 @@
       {{ filter(text).length }} text
       <ul class="list-group">
 
-        <li class="list-group-item" ng-repeat="t in filter(text)">
+        <li class="list-group-item" ng-repeat="t in filter(text) track by $index">
           {{ t.content }}
           <br/>
-          Expected: <span class="label label-success" ng-repeat="l in t['expected']" style="margin-right:2px;">
-            {{ l }}
+          Expected: <span class="label label-success" style="margin-right:2px;">
+            {{ t['expected'] }}
           </span>
           <br/>
-          Actual: <span class="label label-warning" ng-repeat="l in t['actual']" style="margin-right:2px;">
-            {{ l }}
+          Actual: <span class="label label-warning"  style="margin-right:2px;">
+            {{ t['actual'] }}
           </span>
         </li>
       </ul>
@@ -81,7 +81,7 @@
     window.app = angular.module("myApp", []);
     window.app.controller('Controller', function ($scope, $http) {
         $scope.labels = ["TP", "TN", "FP", "FN", "accuracy", "precision", "recall", "f1"];
-        $scope.filterLabel = "ANSWER";
+        $scope.filterLabel = "";
         $scope.filterExpectedClass = true;
         $scope.filterActualClass = true;
         $scope.toggleItem = function(row, index){
@@ -103,7 +103,7 @@
                 $scope.filterActualClass = false;
                 $scope.filterExpectedClass = true;
             }
-            $scope.$apply();
+//            $scope.$apply();
         };
 
         $scope.isFocusItem = function(row, index){
@@ -111,8 +111,8 @@
         };
         $scope.filter = function(text){
             return _.filter(text, function(item){
-                var expectedClass = _.contains(item["expected"], $scope.filterLabel);
-                var actualClass = _.contains(item["actual"], $scope.filterLabel);
+                var expectedClass = item["expected"] == $scope.filterLabel;
+                var actualClass = item["actual"] == $scope.filterLabel;
                 return expectedClass == $scope.filterExpectedClass && actualClass == $scope.filterActualClass;
             });
         };
