@@ -1,4 +1,4 @@
-from bank_sentiment_svm.model import sentiment
+from model import sentiment
 from unittest import TestCase
 
 
@@ -25,7 +25,7 @@ class TestSentiment(TestCase):
         text = "Vậy tốt quá, giờ sài thẻ an toàn lại tiện lợi nữa."
         actual = sentiment(text)
         expected = "CARD#POSITIVE"
-        self.assertEquals(actual[0], expected)
+        self.assertEquals(actual, expected)
 
     def test_sentiment_4(self):
         text = "VCB Mobile B@bking. Chuyển rất nhanh. Giao diện đẹp, thân thiện. Dễ thao tác"
