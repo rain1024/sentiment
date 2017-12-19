@@ -1,4 +1,4 @@
-window.app.controller('TfidfController', function ($scope, $http) {
+window.app.controller('CountController', function ($scope, $http) {
 
     $scope.isFocusItem = function (row, index) {
         return $scope.filterIndex == index && $scope.filterLabel == row["label"];
@@ -21,27 +21,30 @@ window.app.controller('TfidfController', function ($scope, $http) {
             $scope.features = $scope.allFeatures.slice(0, 2000);
         }
     });
-    $http.get("tfidf.json")
+    $http.get("count.json")
         .then(function (result) {
-            var features = result["data"];
-            $scope.numberFeatures = features.length;
+            var data = result["data"];
+            var features = data;
 
-            function createTfidfTooltip(feature) {
+            function createTooltip(feature) {
                 return "<div class='point-tooltip'>" +
                     feature["token"] + " " +
                     "(" +
                     "period: " + feature["period"] + ", " +
-                    "df: " + feature["df"].toFixed(5) + ", " +
-                    "idf: " + feature["idf"].toFixed(4) +
+                    "df: " + feature["df"].toFixed(5) +
                     ")</div>";
             }
 
+            // features = _.filter(features, function (feature) {
+            //     return feature["period"] < 100;
+            // });
+            $scope.numberFeatures = features.length;
             var series = _.map(features, function (feature) {
                 var random_ngram = feature["ngram"] - Math.random();
                 return {
                     "name": feature["token"],
-                    "value": [feature["idf"], random_ngram],
-                    "tooltip": createTfidfTooltip(feature)
+                    "value": [feature["period"], random_ngram],
+                    "tooltip": createTooltip(feature)
                 }
             });
             draw(series);
@@ -52,24 +55,23 @@ window.app.controller('TfidfController', function ($scope, $http) {
             width = 1280 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
 
+        var maxX = d3.max(data, function (d) {
+            return d["value"][0];
+        });
         var x = d3.scale.linear()
             .domain([
-                d3.min(data, function (d) {
-                    return d["value"][0];
-                }) - 0.05,
-                d3.max(data, function (d) {
-                    return d["value"][0];
-                }) + 0.05
+                0,
+                maxX * 1.1
             ])
             .range([0, width]);
 
         var y = d3.scale.linear()
             .domain([0, d3.max(data, function (d) {
-                return d["value"][1];
+                return d["value"][1] + 0.05;
             })])
             .range([height, 0]);
 
-        var chart = d3.select('#tfidf')
+        var chart = d3.select('#count')
             .append('svg:svg')
             .attr('width', width + margin.right + margin.left)
             .attr('height', height + margin.top + margin.bottom)

@@ -17,7 +17,7 @@ if __name__ == '__main__':
     flow = Flow()
     flow.data(X, y)
 
-    transformer = CountVectorizer(ngram_range=(1, 3), max_df=0.8, min_df=0.2)
+    transformer = CountVectorizer(ngram_range=(1, 3), max_df=0.05, min_df=0.005)
     flow.transform(MultiLabelBinarizer())
     flow.transform(transformer)
     flow.add_model(Model(OneVsRestClassifier(SVC(kernel='linear')), "SVC"))
