@@ -34,11 +34,17 @@
     font-weight: bold;
 }
 
-.navbar-inverse .navbar-nav>li>a {
+.navbar-inverse .navbar-nav > li > a {
     color: #fff9f9;
 }
 
 .navbar-inverse .navbar-nav > li > a:hover {
     color: #fff;
+    font-weight: bold;
+}
+
+.analyze-info {
+    padding-left: 60px;
+    color: #E91E63;
     font-weight: bold;
 }

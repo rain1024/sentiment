@@ -8,6 +8,12 @@ window.app.config(function ($stateProvider, $urlRouterProvider) {
             templateUrl: 'web/tfidf/component.html'
         })
         .state({
+            url: '/count',
+            name: 'count',
+            controller: 'CountController',
+            templateUrl: 'web/count/component.html'
+        })
+        .state({
             url: '/',
             name: 'result',
             controller: 'ResultController',

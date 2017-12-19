@@ -15,3 +15,8 @@ circle {
     fill: none;
     stroke-width: 1;
 }
+
+.point-tooltip {
+    padding: 2px;
+    font-weight: bold;
+}
