@@ -23,29 +23,29 @@ window.app.controller('TfidfController', function ($scope, $http) {
     });
     $http.get("tfidf.json")
         .then(function (result) {
-            var data = result["data"];
-            $scope.allFeatures = data;
-            var features = $scope.allFeatures.slice(0, 100000);
-            $scope.features = features;
+            var features = result["data"];
+            $scope.numberFeatures = features.length;
+
+            function createTfidfTooltip(feature) {
+                return "<div class='point-tooltip'>" +
+                    feature["token"] + " " +
+                    "(" +
+                    "period: " + feature["period"] + ", " +
+                    "df: " + feature["df"].toFixed(5) + ", " +
+                    "idf: " + feature["idf"].toFixed(4) +
+                    ")</div>";
+            }
+
             var series = _.map(features, function (feature) {
                 var random_ngram = feature["ngram"] - Math.random();
                 return {
                     "name": feature["token"],
-                    "value": [feature["idf"], random_ngram]
+                    "value": [feature["idf"], random_ngram],
+                    "tooltip": createTfidfTooltip(feature)
                 }
             });
             draw(series);
         });
-    var data = [{
-        name: 'Point 1',
-        value: [3, 3]
-    }, {
-        name: 'Point 2',
-        value: [4, 8]
-    }, {
-        name: 'Point 3',
-        value: [9, 15]
-    }];
 
     function draw(data) {
         var margin = {top: 20, right: 15, bottom: 60, left: 60},
@@ -132,11 +132,11 @@ window.app.controller('TfidfController', function ($scope, $http) {
                     .transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html(d.name)
+                tooltip.html(d.tooltip)
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY - 28) + "px");
             })
-            .on("mouseout", function(d){
+            .on("mouseout", function (d) {
                 tooltip
                     .transition()
                     .duration(200)
