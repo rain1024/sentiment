@@ -11,7 +11,7 @@ from load_data import load_dataset
 
 if __name__ == '__main__':
     current_directory = sys.path[0]
-    data_file = join(dirname(dirname(current_directory)), "data", "fb_bank_sentiments_1600", "corpus", "train.xlsx")
+    data_file = join(dirname(dirname(current_directory)), "data", "fb_bank_sentiments_2200", "corpus", "train.xlsx")
     X, y = load_dataset(data_file)
 
     flow = Flow()
