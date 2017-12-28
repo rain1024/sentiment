@@ -30,8 +30,8 @@ window.app.controller('MultiLabelController', function ($scope, $http) {
     };
     $scope.filter = function (text) {
         return _.filter(text, function (item) {
-            var expectedClass = item["expected"] == $scope.filterLabel;
-            var actualClass = item["actual"] == $scope.filterLabel;
+            var expectedClass = _.contains(item["expected"], $scope.filterLabel);
+            var actualClass = _.contains(item["actual"], $scope.filterLabel);
             return expectedClass == $scope.filterExpectedClass && actualClass == $scope.filterActualClass;
         });
     };
