@@ -27,14 +27,14 @@
             <div class="col-xs-6">
                 {{ filter(text).length }} text
                 <ul class="list-group">
-
                     <li class="list-group-item"
                         ng-repeat="t in filter(text) track by $index">
                         {{ t.content }}
                         <br/>
-                        Expected: <span class="label label-success"
-                                        style="margin-right:2px;"
-                                        ng-repeat="item in t['expected'] track by $index">
+                        Expected:
+                        <span class="label label-success"
+                              style="margin-right:2px;"
+                              ng-repeat="item in t['expected'] track by $index">
             {{ item }}
           </span>
                         <br/>

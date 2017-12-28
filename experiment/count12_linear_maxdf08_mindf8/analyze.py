@@ -1,6 +1,5 @@
 from os.path import join, dirname
 import sys
-
 from languageflow.board import Board
 from languageflow.log import MultilabelLogger
 from languageflow.log.count import CountLogger
@@ -22,4 +21,4 @@ board = Board(log_folder=log_folder)
 MultilabelLogger.log(X_test, y_test, y_pred, log_folder=log_folder)
 CountLogger.log(model_folder=model_folder, log_folder=log_folder)
 
-board.serve(port=62004)
+board.serve(port=62005)
