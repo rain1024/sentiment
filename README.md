@@ -4,7 +4,7 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 
 # Results
 
-![](https://img.shields.io/badge/F1-0.43-red.svg)
+![](https://img.shields.io/badge/F1-0.59-red.svg)
 
 | Model                                                          | F1 Score |
 |----------------------------------------------------------------|----------|
