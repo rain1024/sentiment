@@ -23,5 +23,5 @@ if __name__ == '__main__':
     flow.add_model(Model(OneVsRestClassifier(SVC(kernel='linear')), "SVC"))
     flow.set_validation(TrainTestSplitValidation(test_size=0.1))
 
-    flow.train()
+    # flow.train()
     flow.export(model_name="SVC", export_folder="model")
