@@ -11,6 +11,7 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 | Logistic Regression (Tfidf_ngrams(1,2) + max_df=0.8+ min_df=8) | 0.53     |
 | Logistic Regression (Count_ngrams(1,2) + max_df=0.8+ min_df=8) | 0.58     |
 | SVM (Count_ngrams(1,2) + max_df=0.8 + min_df=0.005)            | 0.58     |
+| SVM (Count_ngrams(1,3) + max_df=0.5 + min_df=0.005)            | 0.58     |
 | SVM (Count_ngrams(1,2) + max_df=0.5 + min_df=0.005)            | 0.59     |
 
 
