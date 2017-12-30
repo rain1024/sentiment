@@ -2,7 +2,6 @@ from os.path import dirname, join
 import sys
 from languageflow.flow import Flow
 from languageflow.model import Model
-from languageflow.transformer.count import CountVectorizer
 from languageflow.transformer.tfidf import TfidfVectorizer
 from sklearn.svm import SVC
 from languageflow.validation.validation import TrainTestSplitValidation
