@@ -4,7 +4,7 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 
 # Results
 
-![](https://img.shields.io/badge/F1-0.43-red.svg)
+![](https://img.shields.io/badge/F1-63.5-red.svg)
 
 | Model                                                          | F1 Score (%) |
 |----------------------------------------------------------------|--------------|
@@ -24,16 +24,16 @@ Các bước thực hiện để đánh giá mô hình với dữ liệu đã c�
 
 #### Bước 1: Tiền xử lí dữ liệu
 
-Chạy preprocess.py tại thư mục data/fb_bank_sentiments_2200. Với dữ liệu đầu vào tại thư mục raw. Dữ liệu đầu ra lưu trong thư mục corpus gồm các tệp định dạng excel: data, train, test. Tiếp tục chạy eda.py phân tích dữ liệu thăm dò để lập bảng thống kê đơn giản. Hình ảnh phân tích lưu tại thư mục eda.
+Chạy preprocess.py tại thư mục data/fb_bank_sentiments_2200. Với dữ liệu đầu vào lưu tại thư mục raw. Dữ liệu đầu ra lưu trong thư mục corpus gồm các tệp định dạng excel: data, train, test. Tiếp tục chạy eda.py nhằm phân tích dữ liệu thăm dò để lập bảng thống kê đơn giản. Hình ảnh phân tích lưu tại thư mục eda.
 
 #### Bước 2: Huấn luyện mô hình
-Chạy train.py tại thư mục experiments/[Các_thử_nghiệm_với_model_và_features_tương_ứng]. Với mỗi thử nghiệm gồm model và feature tương ứng mục đích để tìm ra model và features thích hợp với dữ liệu. Đầu vào là các dữ liệu train lấy từ tệp data/fb_bank_sentiments_2200/corpus/train.xlsx. Đầu ra là các tệp .bin lưu tai thư mục model.
+Chạy train.py tại thư mục experiments/[Các_thử_nghiệm_với_model_và_features_tương_ứng]. Với mỗi thử nghiệm gồm model và feature tương ứng nhằm mục đích tìm ra model và features thích hợp cho ra dự đoán tốt nhất cho câu. Đầu vào là dữ liệu huấn luyện lấy từ tệp data/fb_bank_sentiments_2200/corpus/train.xlsx. Đầu ra là các tệp .bin lưu tai thư mục model.
 
 #### Bước 3: Kiểm tra mô hình
-Chạy test.py tại thư mục experiments/[Các_thử_nghiệm_với_model_và_features_tương_ứng]. Ở đây gồm các hàm kiểm tra đơn giản với đầu vào là các câu và đầu ra là kết quả tương ứng, mục tiêu là kiểm tra tính đúng đắn của model. Các test gọi tới hàm sentiment trong model/__init__.py.
+Chạy test.py tại thư mục experiments/[Các_thử_nghiệm_với_model_và_features_tương_ứng]. Ở đây gồm các hàm kiểm tra đơn giản với đầu vào là một câu và đầu ra là nhãn tương ứng, mục tiêu là kiểm tra tính đúng đắn của model (hàm hoạt động đúng hay chưa, cho kết quả có đúng với mong muốn hay không).
 
 #### Bước 4: Phân tích dữ liệu
-Với các mô hình thu được sau khi huấn luyện dữ liệu, tiến hành kiểm tra với dữ liệu kiểm thử tại: data/fb_bank_sentiments_2200/corpus/test.xlsx. Đầu ra được thể hiện trên Board bao gồm: các kết quả (F1 Weighted, Accuracy...), mô tả dữ liệu và màn hình hiện thị các câu kết hợp các nhãn tương ứng.
+Với các mô hình thu được sau khi huấn luyện dữ liệu, tiến hành kiểm tra với dữ liệu kiểm thử tại: data/fb_bank_sentiments_2200/corpus/test.xlsx. Đầu ra được thể hiện trên Board bao gồm: các kết quả (F1 Weighted, Accuracy...), mô tả dữ liệu và màn hình hiển thị các post với câu cùng nhãn tương ứng.
 
 ## English
 ### Training your customer model
