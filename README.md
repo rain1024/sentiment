@@ -15,7 +15,7 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 | LinearSVC (Tfidf_ngrams(1,2)                                   | 63.0         |
 | LinearSVC (Tfidf_ngrams(1,2) + max_features=5000)              | 63.5         |
 
-Guide
+#Guide
 
 Tiếng Việt
 ### Huấn luyện mô hình:
