@@ -17,7 +17,7 @@ This repository contains experiments in Vietnamese sentiment analysis problems. 
 
 # Guide
 
-Tiếng Việt
+## Tiếng Việt
 ### Huấn luyện mô hình:
 
 Các bước thực hiện để đánh giá mô hình với dữ liệu đã có:
@@ -35,7 +35,7 @@ Chạy test.py tại thư mục experiments/[Các_thử_nghiệm_với_model_và
 #### Bước 4: Phân tích dữ liệu
 Với các mô hình thu được sau khi huấn luyện dữ liệu, tiến hành kiểm tra với dữ liệu kiểm thử tại: data/fb_bank_sentiments_2200/corpus/test.xlsx. Đầu ra được thể hiện trên Board bao gồm: các kết quả (F1 Weighted, Accuracy...), mô tả dữ liệu và màn hình hiện thị các câu kết hợp các nhãn tương ứng.
 
-English
+## English
 ### Training your customer model
 Step to step:
 #### Step 1: Preprocessing data
