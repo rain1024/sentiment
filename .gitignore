@@ -98,3 +98,4 @@ ENV/
 /fasttext_bin/
 /experiment/lab/
 /.gitignore
+*.bin
