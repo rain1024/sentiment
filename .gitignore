@@ -97,3 +97,5 @@ ENV/
 
 /fasttext_bin/
 /experiment/lab/
+*.bin
+*.json
