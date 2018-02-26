@@ -20,7 +20,7 @@ if __name__ == '__main__':
     flow.transform(MultiLabelBinarizer())
     flow.transform(transformer)
     flow.add_model(Model(OneVsRestClassifier(LogisticRegression()), "LogisticRegression"))
-    flow.set_validation(TrainTestSplitValidation(test_size=0.1))
+    flow.set_validation(TrainTestSplitValidation(test_size=0.0001))
 
     flow.train()
     flow.export(model_name="LogisticRegression", export_folder="model")
