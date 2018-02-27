@@ -10,7 +10,7 @@ from load_data import load_dataset
 
 
 if __name__ == '__main__':
-    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "resto.xlsx")
+    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
     X, y = load_dataset(data_file)
 
     flow = Flow()

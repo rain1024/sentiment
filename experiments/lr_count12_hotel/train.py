@@ -10,13 +10,13 @@ from load_data import load_dataset
 
 
 if __name__ == '__main__':
-    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "resto.xlsx")
+    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
     X, y = load_dataset(data_file)
 
     flow = Flow()
     flow.data(X, y)
 
-    transformer = CountVectorizer(ngram_range=(1, 2), max_features=5000)
+    transformer = CountVectorizer(ngram_range=(1, 2))
     flow.transform(MultiLabelBinarizer())
     flow.transform(transformer)
     flow.add_model(Model(OneVsRestClassifier(LogisticRegression()), "LogisticRegression"))
