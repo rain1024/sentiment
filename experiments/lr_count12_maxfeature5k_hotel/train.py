@@ -16,7 +16,7 @@ if __name__ == '__main__':
     flow = Flow()
     flow.data(X, y)
 
-    transformer = CountVectorizer(ngram_range=(1, 2), max_features=10000, min_df=20)
+    transformer = CountVectorizer(ngram_range=(1, 2), max_features=5000)
     flow.transform(MultiLabelBinarizer())
     flow.transform(transformer)
     flow.add_model(Model(OneVsRestClassifier(LogisticRegression()), "LogisticRegression"))

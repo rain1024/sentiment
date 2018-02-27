@@ -18,4 +18,4 @@ board = Board(log_folder=log_folder)
 MultilabelLogger.log(X_test, y_test, y_pred, log_folder=log_folder)
 CountLogger.log(model_folder=model_folder, log_folder=log_folder)
 
-board.serve(port=62011)
+board.serve(port=62010)
