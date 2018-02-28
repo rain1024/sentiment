@@ -12,7 +12,7 @@ if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
     X, y = load_dataset(data_file)
 
-    transformer_1 = CountVectorizer(ngram_range=(1, 2), max_features=5000)
+    transformer_1 = CountVectorizer(ngram_range=(1, 2))
     X = transformer_1.fit_transform(X)
     transformer_2 = MultiLabelBinarizer()
     y = transformer_2.fit_transform(y)
