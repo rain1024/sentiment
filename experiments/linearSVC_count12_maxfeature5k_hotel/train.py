@@ -1,6 +1,7 @@
 from os.path import dirname, join
 import joblib
 from languageflow.transformer.count import CountVectorizer
+from sklearn.feature_selection import SelectKBest, chi2
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
 from load_data import load_dataset
@@ -17,7 +18,9 @@ if __name__ == '__main__':
     transformer_2 = MultiLabelBinarizer()
     y = transformer_2.fit_transform(y)
 
+    ch2 = SelectKBest(chi2, k=X.shape[1])
     X_train, X_dev, y_train, y_dev = train_test_split(X, y, test_size=0.01)
+    X_train = ch2.fit_transform(X_train, y_train)
     model = OneVsRestClassifier(LinearSVC())
     model.fit(X_train, y_train)
     y_predict = model.predict(X_dev)
