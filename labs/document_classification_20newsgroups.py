@@ -182,7 +182,7 @@ if opts.select_chi2:
     print("Extracting %d best features by a chi-squared test" %
           opts.select_chi2)
     t0 = time()
-    ch2 = SelectKBest(chi2, k=opts.select_chi2)
+    ch2 = SelectKBest(chi2, k=5000)
     X_train = ch2.fit_transform(X_train, y_train)
     X_test = ch2.transform(X_test)
     if feature_names:

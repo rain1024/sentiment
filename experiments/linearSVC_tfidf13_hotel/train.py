@@ -1,7 +1,6 @@
 from os.path import dirname, join
 import joblib
 from languageflow.transformer.tfidf import TfidfVectorizer
-from sklearn.cluster import KMeans
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.preprocessing import MultiLabelBinarizer
 from load_data import load_dataset
@@ -19,14 +18,13 @@ if __name__ == '__main__':
     transformer_2 = MultiLabelBinarizer()
     y = transformer_2.fit_transform(y)
 
-    ch2 = SelectKBest(chi2, k=X.shape[1])
+    ch2 = SelectKBest(chi2, k=5000)
     X_train, X_dev, y_train, y_dev = train_test_split(X, y, test_size=0.01)
     X_train = ch2.fit_transform(X_train, y_train)
 
-    km = KMeans(n_clusters=60, init='k-means++', max_iter=100, n_init=1)
     model = OneVsRestClassifier(LinearSVC())
     estimator = model.fit(X_train, y_train)
-    y_predict = estimator.predict(X_dev)
+    y_predict = estimator.predict(ch2.transform(X_dev))
     score = multilabel_f1_score(y_dev, y_predict)
     print(score)
 
