@@ -7,7 +7,7 @@ from load_data import load_dataset
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from score import multilabel_f1_score
-from sklearn.feature_selection import SelectPercentile, mutual_info_classif
+from sklearn.feature_selection import SelectKBest, chi2
 
 if __name__ == '__main__':
     data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
@@ -18,9 +18,9 @@ if __name__ == '__main__':
     transformer_2 = MultiLabelBinarizer()
     y = transformer_2.fit_transform(y)
 
-    selector = SelectPercentile(mutual_info_classif, percentile=10)
+    selector = SelectKBest(chi2, k=2000)
     X_train, X_dev, y_train, y_dev = train_test_split(X, y, test_size=0.01)
-    X_train = selector.fit(X_train, y_train)
+    X_train = selector.fit_transform(X_train, y_train)
 
     model = OneVsRestClassifier(LinearSVC())
     estimator = model.fit(X_train, y_train)
