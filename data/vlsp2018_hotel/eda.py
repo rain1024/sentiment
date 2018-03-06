@@ -16,11 +16,11 @@ def analyze(path, name):
 
 output_path = join(dirname(__file__), "eda")
 train_hotel = join(dirname(__file__), "corpus", "train", "hotel.xlsx")
-train_resto = join(dirname(__file__), "corpus", "train", "resto.xlsx")
+# train_resto = join(dirname(__file__), "corpus", "train", "resto.xlsx")
 test_hotel = join(dirname(__file__), "corpus", "test", "hotel.xlsx")
-test_resto = join(dirname(__file__), "corpus", "test", "resto.xlsx")
+# test_resto = join(dirname(__file__), "corpus", "test", "resto.xlsx")
 
 analyze(train_hotel, "hotel_train")
-analyze(train_resto, "resto_train")
+# analyze(train_resto, "resto_train")
 analyze(test_hotel, "hotel_test")
-analyze(test_resto, "resto_tesst")
+# analyze(test_resto, "resto_tesst")

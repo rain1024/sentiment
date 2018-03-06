@@ -10,7 +10,7 @@ from score import multilabel_f1_score
 from sklearn.feature_selection import SelectKBest, chi2
 
 if __name__ == '__main__':
-    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
+    data_file = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018_hotel", "corpus", "train", "hotel.xlsx")
     X, y = load_dataset(data_file)
 
     transformer_1 = CountVectorizer(ngram_range=(1, 2), max_features=10000)

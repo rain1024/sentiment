@@ -13,7 +13,7 @@ def transform_comment(item):
     return comment
 
 
-def convert_to_corpus(comments):
+def convert_to_corpus(comments, corpus_file):
     data = []
     labels = list(set(sum([comment["labels"] for comment in comments], [])))
     for comment in comments:
@@ -31,13 +31,12 @@ def convert_to_corpus(comments):
 
 
 if __name__ == '__main__':
-    # data = read(join(dirname(__file__), "raw", "train", "VLSP2018-SA-hotel-train (3-2-2018).txt")).split("\n\n")
-    # corpus_file = join(dirname(__file__), "corpus", "train", "hotel.xlsx")
-    # data = read(join(dirname(__file__), "raw", "train", "VLSP2018-SA-resto.txt")).split("\n\n")
-    # corpus_file = join(dirname(__file__), "corpus", "train", "resto.xlsx")
-    # data = read(join(dirname(__file__), "raw", "dev", "VLSP2018-SA-hotel-dev.txt")).split("\n\n")
-    # corpus_file = join(dirname(__file__), "corpus", "test", "hotel.xlsx")
-    data = read(join(dirname(__file__), "raw", "dev", "VLSP2018-SA-resto-dev.txt")).split("\n\n")
-    corpus_file = join(dirname(__file__), "corpus", "test", "resto.xlsx")
+    data = read(join(dirname(__file__), "raw", "train", "1-VLSP2018-SA-hotel-train (4-3-2018).txt")).split("\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "train", "hotel.xlsx")
     comments = [transform_comment(item) for item in data]
-    convert_to_corpus(comments)
+    convert_to_corpus(comments, corpus_file)
+
+    data = read(join(dirname(__file__), "raw", "dev", "2-VLSP2018-SA-hotel-dev (4-3-2018).txt")).split("\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "test", "hotel.xlsx")
+    comments = [transform_comment(item) for item in data]
+    convert_to_corpus(comments, corpus_file)
