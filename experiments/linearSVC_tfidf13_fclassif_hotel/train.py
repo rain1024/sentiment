@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     selector = SelectKBest(f_classif, k=10000)
     X_train, X_dev, y_train, y_dev = train_test_split(X, y, test_size=0.01)
-    X_train = selector.fit(X_train.shape[0], y_train.shape[0])
+    X_train = selector.fit(X_train, X_train.shape[0])
 
     model = OneVsRestClassifier(LinearSVC())
     estimator = model.fit(X_train, y_train)
