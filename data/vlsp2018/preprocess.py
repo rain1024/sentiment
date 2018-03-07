@@ -40,3 +40,13 @@ if __name__ == '__main__':
     corpus_file = join(dirname(__file__), "corpus", "test", "hotel.xlsx")
     comments = [transform_comment(item) for item in data]
     convert_to_corpus(comments, corpus_file)
+
+    data = read(join(dirname(__file__), "raw", "train", "1-VLSP2018-SA-Restaurant-train (5-3-2018).txt")).split("\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "train", "restaurant.xlsx")
+    comments = [transform_comment(item) for item in data]
+    convert_to_corpus(comments, corpus_file)
+
+    data = read(join(dirname(__file__), "raw", "dev", "2-VLSP2018-SA-Restaurant-dev (5-3-2018).txt")).split("\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "test", "restaurant.xlsx")
+    comments = [transform_comment(item) for item in data]
+    convert_to_corpus(comments, corpus_file)

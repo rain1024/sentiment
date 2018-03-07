@@ -3,8 +3,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from load_data import load_dataset
 from model import XGboostModel
 
-data_train = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
-data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "hotel.xlsx")
+data_train = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "restaurant.xlsx")
+data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "restaurant.xlsx")
 
 X_train, y_train = load_dataset(data_train)
 X_test, y_test = load_dataset(data_test)
