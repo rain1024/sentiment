@@ -1,0 +1,173 @@
+from languageflow.model.xgboost import XGBoostClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.model_selection import train_test_split
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.svm import LinearSVC
+from score import multilabel_f1_score
+
+
+class Model:
+    def __init__(self, name, transformers):
+        self.name = name
+        self.transformers = transformers
+
+    def get_name(self):
+        return self.name
+
+    def load_data(self):
+        raise Exception("Need implement")
+
+    def fit_transform(self):
+        raise Exception("Need implement")
+
+    def train(self):
+        raise Exception("Need implement")
+
+    def evaluate(self):
+        raise Exception("Need implement")
+
+
+class TfidfModel(Model):
+    def __init__(self, name, transformer):
+        self.name = name
+        self.y_transformer = MultiLabelBinarizer()
+        self.transformer = transformer
+
+    def load_data(self, X, y):
+        self.X = X
+        self.y = y
+
+    def show_info(self):
+        print("=======")
+        print(self.name)
+
+    def fit_transform(self):
+        self.X = self.transformer.fit_transform(self.X)
+        self.y = self.y_transformer.fit_transform(self.y)
+
+    def train(self):
+        self.show_info()
+        X_train, X_dev, y_train, y_dev = train_test_split(self.X, self.y, test_size=0.01)
+        model = OneVsRestClassifier(LinearSVC())
+        self.estimator = model.fit(X_train, y_train)
+        y_predict = self.estimator.predict(X_dev)
+        score = multilabel_f1_score(y_dev, y_predict)
+        print("Dev Score: ", score)
+
+    def _create_log_file_name(self, score):
+        file_name = "logs/" + \
+                    "{:.4f}".format(score) + \
+                    "_" + \
+                    "LinearSVC" + \
+                    "_" + \
+                    self.name + \
+                    ".txt"
+        return file_name
+
+    def evaluate(self, X_test, y_test):
+        y_test = [tuple(item) for item in y_test]
+        y_pred = self.transformer.inverse_transform(
+            self.estimator.predict(self.transformer.transform(X_test)))
+        score = multilabel_f1_score(y_test, y_pred)
+        print("Test Score: ", score)
+        log_file = self._create_log_file_name(score)
+        with open(log_file, "w") as f:
+            f.write("")
+
+
+class LogisticRegressionModel(Model):
+    def __init__(self, name, transformer):
+        self.name = name
+        self.y_transformer = MultiLabelBinarizer()
+        self.transformer = transformer
+
+    def load_data(self, X, y):
+        self.X = X
+        self.y = y
+
+    def show_info(self):
+        print("=======")
+        print(self.name)
+
+    def fit_transform(self):
+        self.X = self.transformer.fit_transform(self.X)
+        self.y = self.y_transformer.fit_transform(self.y)
+
+    def train(self):
+        self.show_info()
+        X_train, X_dev, y_train, y_dev = train_test_split(self.X, self.y, test_size=0.01)
+        model = OneVsRestClassifier(LogisticRegression())
+        self.estimator = model.fit(X_train, y_train)
+        y_predict = self.estimator.predict(X_dev)
+        score = multilabel_f1_score(y_dev, y_predict)
+        print("Dev Score: ", score)
+
+    def _create_log_file_name(self, score):
+        file_name = "logs/" + \
+                    "{:.4f}".format(score) + \
+                    "_" + \
+                    "Logistic Regression" + \
+                    "_" + \
+                    self.name + \
+                    ".txt"
+        return file_name
+
+    def evaluate(self, X_test, y_test):
+        y_test = [tuple(item) for item in y_test]
+        y_pred = self.transformer.inverse_transform(
+            self.estimator.predict(self.transformer.transform(X_test)))
+        score = multilabel_f1_score(y_test, y_pred)
+        print("Test Score: ", score)
+        log_file = self._create_log_file_name(score)
+        with open(log_file, "w") as f:
+            f.write("")
+
+
+class XGboostModel(Model):
+    def __init__(self, name, transformer):
+        self.name = name
+        self.y_transformer = MultiLabelBinarizer()
+        self.transformer = transformer
+
+    def load_data(self, X, y):
+        self.X = X
+        self.y = y
+
+    def show_info(self):
+        print("=======")
+        print(self.name)
+
+    def fit_transform(self):
+        self.X = self.transformer.fit_transform(self.X)
+        self.y = self.y_transformer.fit_transform(self.y)
+
+    def train(self):
+        self.show_info()
+        X_train, X_dev, y_train, y_dev = train_test_split(self.X, self.y, test_size=0.01)
+        for n in [10, 20, 30, 50]:
+            model = OneVsRestClassifier(XGBoostClassifier(max_depth=n))
+            self.estimator = model.fit(X_train, y_train)
+            y_predict = self.estimator.predict(X_dev)
+            score = multilabel_f1_score(y_dev, y_predict)
+            print("Dev Score: ", score)
+
+    def _create_log_file_name(self, score):
+        file_name = "logs/" + \
+                    "{:.4f}".format(score) + \
+                    "_" + \
+                    "XGBoost" + \
+                    "_" + \
+                    self.name + \
+                    ".txt"
+        return file_name
+
+    def evaluate(self, X_test, y_test):
+        y_test = [tuple(item) for item in y_test]
+        y_pred = self.transformer.inverse_transform(
+            self.estimator.predict(self.transformer.transform(X_test)))
+        score = multilabel_f1_score(y_test, y_pred)
+        print("Test Score: ", score)
+        log_file = self._create_log_file_name(score)
+        with open(log_file, "w") as f:
+            f.write("")
