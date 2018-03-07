@@ -12,28 +12,39 @@ from score import multilabel_f1_score
 data_train = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
 data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "hotel.xlsx")
 
-parameters = {
-    'max_features': (None, 5000, 10000, 15000),
-    'ngram_range': ((1, 2), (1, 3)),  # bigrams or trigrams
-}
-pipeline = Pipeline([
-    ('vect', CountVectorizer()),
-    ('tfidf', TfidfVectorizer()),
-])
-models = LinearSVC(pipeline, parameters)
+# parameters = {
+#     'max_features': (None, 5000, 10000, 15000),
+#     'ngram_range': ((1, 2), (1, 3)),  # bigrams or trigrams
+# }
+# pipeline = Pipeline([
+#     ('vect', CountVectorizer()),
+#     ('tfidf', TfidfVectorizer()),
+# ])
+# models = LinearSVC(pipeline, parameters)
 
+class Model:
+    def __init__(self, name, transformers):
+        self.name = name
+        self.transformers = transformers
+
+    def get_name(self):
+        return name
 
 tfidf_ngram12 = TfidfVectorizer(ngram_range=(1, 2))
 tfidf_ngram13 = TfidfVectorizer(ngram_range=(1, 3))
-tfidf_maxfeature5k = TfidfVectorizer(max_features=5000)
-count_ngram12 = CountVectorizer(ngram_range=(1, 2))
-count_ngram13 = CountVectorizer(ngram_range=(1, 3))
-count_maxfeature5k = CountVectorizer(max_features=5000)
+# tfidf_maxfeature5k = TfidfVectorizer(max_features=5000)
+# count_ngram12 = CountVectorizer(ngram_range=(1, 2))
+# count_ngram13 = CountVectorizer(ngram_range=(1, 3))
+# count_maxfeature5k = CountVectorizer(max_features=5000)
 
+models = [
+    Model("Tfidf Bigram", tfidf_ngram12),
+    Model("Tfidf Bigram", tfidf_ngram13)
+]
 for feature, name in [
     (tfidf_ngram12, 'Tfidf Bigram'),
     (tfidf_ngram13, 'Tfidf Trigram'),
-    (tfidf_maxfeature5k, 'Tfidf max features = 5000')
+    # (tfidf_maxfeature5k, 'Tfidf max features = 5000')
 ]:
     X, y = load_dataset(data_train)
     X = feature.fit_transform(X)
