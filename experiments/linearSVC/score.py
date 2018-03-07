@@ -17,5 +17,7 @@ def multilabel_f1_score(y_true, y_pred):
         return 1
     p = len(labels_pred.intersection(labels_true)) / len(labels_pred)
     r = len(labels_pred.intersection(labels_true)) / len(labels_true)
+    if p == 0:
+        return 0
     f1 = (2 * p * r) / (p + r)
     return f1

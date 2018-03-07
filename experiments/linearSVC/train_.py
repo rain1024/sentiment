@@ -7,7 +7,7 @@ from load_data import load_dataset
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import train_test_split
 from score import multilabel_f1_score
-
+from model import Model
 
 data_train = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "train", "hotel.xlsx")
 data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "hotel.xlsx")
@@ -22,13 +22,6 @@ data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpu
 # ])
 # models = LinearSVC(pipeline, parameters)
 
-class Model:
-    def __init__(self, name, transformers):
-        self.name = name
-        self.transformers = transformers
-
-    def get_name(self):
-        return name
 
 tfidf_ngram12 = TfidfVectorizer(ngram_range=(1, 2))
 tfidf_ngram13 = TfidfVectorizer(ngram_range=(1, 3))
