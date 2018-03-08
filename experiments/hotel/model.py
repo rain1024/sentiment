@@ -1,3 +1,4 @@
+import joblib
 from languageflow.model.xgboost import XGBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MultiLabelBinarizer
@@ -125,10 +126,16 @@ class LogisticRegressionModel(Model):
 
 
 class XGboostModel(Model):
-    def __init__(self, name, transformer):
+    def __init__(self, name, params, transformer):
         self.name = name
         self.y_transformer = MultiLabelBinarizer()
         self.transformer = transformer
+        default_params = {
+            "max_depth": 10
+        }
+        default_params.update(params)
+        params = default_params
+        self.model = OneVsRestClassifier(XGBoostClassifier(**params))
 
     def load_data(self, X, y):
         self.X = X
@@ -145,12 +152,11 @@ class XGboostModel(Model):
     def train(self):
         self.show_info()
         X_train, X_dev, y_train, y_dev = train_test_split(self.X, self.y, test_size=0.01)
-        for n in [10, 20, 30, 50]:
-            model = OneVsRestClassifier(XGBoostClassifier(max_depth=n))
-            self.estimator = model.fit(X_train, y_train)
-            y_predict = self.estimator.predict(X_dev)
-            score = multilabel_f1_score(y_dev, y_predict)
-            print("Dev Score: ", score)
+
+        self.estimator = self.model.fit(X_train, y_train)
+        y_predict = self.estimator.predict(X_dev)
+        score = multilabel_f1_score(y_dev, y_predict)
+        print("Dev Score: ", score)
 
     def _create_log_file_name(self, score):
         file_name = "logs/" + \
@@ -171,3 +177,8 @@ class XGboostModel(Model):
         log_file = self._create_log_file_name(score)
         with open(log_file, "w") as f:
             f.write("")
+
+    def export(self):
+        joblib.dump(self.transformer, "exported/tfidf.transformer.bin")
+        joblib.dump(self.y_transformer, "exported/y_transformer.bin")
+        joblib.dump(self.estimator, "exported/model.bin", protocol=2)
