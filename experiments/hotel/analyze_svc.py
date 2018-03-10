@@ -1,17 +1,18 @@
 from os.path import join, dirname
 from languageflow.board import Board
 from languageflow.log import MultilabelLogger
-from linearsvc_exported import sentiment
+
+from exported.svc_full import sentiment
 from load_data import load_dataset
 
-data = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "hotel.xlsx")
-X_test, y_test = load_dataset(data)
-y_test = [tuple(item) for item in y_test]
-y_pred = sentiment(X_test)
+data = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "hotel", "dev.xlsx")
+X_dev, y_dev = load_dataset(data)
+y_dev = [tuple(item) for item in y_dev]
+y_pred = sentiment(X_dev)
 
 log_folder = join(dirname(__file__), "analyze")
 
 board = Board(log_folder=log_folder)
 
-MultilabelLogger.log(X_test, y_test, y_pred, log_folder=log_folder)
-board.serve(port=62010)
+MultilabelLogger.log(X_dev, y_dev, y_pred, log_folder=log_folder)
+# board.serve(port=62010)

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from linearsvc_exported import sentiment
+from svc_exported import sentiment
 
 
 class TestSentiment(TestCase):
