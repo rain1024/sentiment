@@ -1,9 +1,8 @@
 from os.path import join, dirname
 from languageflow.board import Board
 from languageflow.log import MultilabelLogger
-from languageflow.log.tfidf import TfidfLogger
+from linearsvc_exported import sentiment
 from load_data import load_dataset
-from exported import sentiment
 
 data = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "test", "hotel.xlsx")
 X_test, y_test = load_dataset(data)
@@ -11,7 +10,6 @@ y_test = [tuple(item) for item in y_test]
 y_pred = sentiment(X_test)
 
 log_folder = join(dirname(__file__), "analyze")
-model_folder = join(dirname(__file__), "exported")
 
 board = Board(log_folder=log_folder)
 

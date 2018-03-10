@@ -30,4 +30,4 @@ for i in range(len(X_test)):
     content += "{}\n".format(X_test[i])
     content += "{}\n\n".format(generate_labels(y[i]))
 
-open("results/result.txt", "w").write(content)
+open("results/svc_result.txt", "w").write(content)

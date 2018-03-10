@@ -1,5 +1,6 @@
 import joblib
 from languageflow.model.xgboost import XGBoostClassifier
+from os.path import join
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.model_selection import train_test_split
@@ -76,10 +77,14 @@ class TfidfModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
-    def export(self):
-        joblib.dump(self.transformer, "exported/count.transformer.bin")
-        joblib.dump(self.y_transformer, "exported/y_transformer.bin")
-        joblib.dump(self.estimator, "exported/model.bin", protocol=2)
+    def export(self, folder="exported"):
+        joblib.dump(self.transformer,
+                    join(folder, "count.transformer.bin"))
+        joblib.dump(self.y_transformer,
+                    join(folder, "y_transformer.bin"))
+        joblib.dump(self.estimator,
+                    join(folder, "model.bin"),
+                    protocol=2)
 
 
 class LogisticRegressionModel(Model):
