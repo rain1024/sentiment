@@ -9,47 +9,27 @@ data_test = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpu
 X_train, y_train = load_dataset(data_train)
 X_test, y_test = load_dataset(data_test)
 
-# n = 1000
+# n = 100
 # X_train, y_train = X_train[:n], y_train[:n]
 # X_test, y_test = X_test[:n], y_test[:n]
 
-models = [
-    XGboostModel("max depth 100 - Tfidf Bigram Full",
-                 params={"n_iter": 300},
-                 transformer=TfidfVectorizer(ngram_range=(1, 2))),
-    # XGboostModel("Tfidf Trigram", TfidfVectorizer(ngram_range=(1, 3))),
-    # XGboostModel("Count Bigram", CountVectorizer(ngram_range=(1, 2))), # XGboostModel("Count Trigram", CountVectorizer(ngram_range=(1, 3)))
-]
+models = []
 
-# for n in [2000, 5000, 10000, 15000, 20000]:
-#     model = XGboostModel(
-#         "Count Max Feature {}".format(n),
-#         CountVectorizer(max_features=n)
-#     )
-#     models.append(model)
 
-# for n in [2000, 5000, 10000, 15000, 20000]:
-#     model = XGboostModel(
-#         "Count Max Feature {}".format(n),
-#         TfidfVectorizer(max_features=n)
-#     )
-#     models.append(model)
-
-# for n in [500, 700, 800, 900, 1000]:
-#     for ngram in [('Bigram', (1, 2)), ("Trigram", (1, 3))]:
-#         model = XGboostModel(
-#             "Count {0} + Max Feature {1}".format(ngram[0], n),
-#             CountVectorizer(ngram_range=ngram[1], max_features=n)
-#         )
-#         models.append(model)
-
-# for n in [500, 700, 800, 900, 1000]:
-#     for ngram in [('Bigram', (1, 2)), ("Trigram", (1, 3))]:
-#         model = XGboostModel(
-#             "Count {0} + Max Feature {1}".format(ngram[0], n),
-#             TfidfVectorizer(ngram_range=ngram[1], max_features=n)
-#         )
-#         models.append(model)
+# for n_iter in [100, 140, 160, 200, 500]:
+for n_iter in [140]:
+    # for max_depth in [50, 100, 140, 160, 200, 300]:
+    for max_depth in [200, 300, 400, 500]:
+        # for max_features in [1000, 2000, 2200, 2400, 2600, 3000]:
+        for max_features in [2000, 3000, 4000]:
+            name = "XGBoost(n_iter {0} max_depth {1}) + Count(bigram, max_features {2})".format(n_iter, max_depth, max_features)
+            params = {"n_iter": n_iter, "max_depth": max_depth}
+            model = XGboostModel(
+                name,
+                params,
+                CountVectorizer(ngram_range=(1, 2), max_features=max_features)
+            )
+            models.append(model)
 
 for model in models:
     from datetime import datetime
@@ -58,5 +38,5 @@ for model in models:
     model.fit_transform()
     model.train()
     model.evaluate(X_test, y_test)
-    model.export()
+    # model.export()
     print(datetime.now() - start)

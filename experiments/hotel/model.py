@@ -76,6 +76,11 @@ class TfidfModel(Model):
         with open(log_file, "w") as f:
             f.write("")
 
+    def export(self):
+        joblib.dump(self.transformer, "exported/count.transformer.bin")
+        joblib.dump(self.y_transformer, "exported/y_transformer.bin")
+        joblib.dump(self.estimator, "exported/model.bin", protocol=2)
+
 
 class LogisticRegressionModel(Model):
     def __init__(self, name, transformer):
@@ -130,11 +135,7 @@ class XGboostModel(Model):
         self.name = name
         self.y_transformer = MultiLabelBinarizer()
         self.transformer = transformer
-        default_params = {
-            "max_depth": 10
-        }
-        default_params.update(params)
-        params = default_params
+        self.params = params
         self.model = OneVsRestClassifier(XGBoostClassifier(**params))
 
     def load_data(self, X, y):
@@ -161,8 +162,6 @@ class XGboostModel(Model):
     def _create_log_file_name(self, score):
         file_name = "logs/" + \
                     "{:.4f}".format(score) + \
-                    "_" + \
-                    "XGBoost" + \
                     "_" + \
                     self.name + \
                     ".txt"
