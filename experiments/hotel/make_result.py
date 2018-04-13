@@ -1,8 +1,8 @@
 from os.path import join, dirname
 import pandas as pd
 import re
-from exported.svc import sentiment
-from exported.svc_full import sentiment as sentiment_full
+from exported.linearsvc import sentiment
+from exported.linearsvc_full import sentiment as sentiment_full
 import pandas as pd
 import json
 
@@ -48,9 +48,9 @@ for i in range(len(X_test)):
 
 content_full = ""
 for i in range(len(X_test)):
-    content += "#{}\n".format(i + 1)
-    content += "{}\n".format(X_test[i])
-    content += "{}\n\n".format(generate_labels(y_full[i]))
+    content_full += "#{}\n".format(i + 1)
+    content_full += "{}\n".format(X_test[i])
+    content_full += "{}\n\n".format(generate_labels(y_full[i]))
 
 open("results/svc_result.txt", "w").write(content)
 open("results/svc_full_result.txt", "w").write(content_full)

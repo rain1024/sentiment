@@ -2,7 +2,7 @@ from os.path import join, dirname
 from languageflow.board import Board
 from languageflow.log import MultilabelLogger
 
-from exported.svc_full import sentiment
+from exported.linearsvc import sentiment
 from load_data import load_dataset
 
 data = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "hotel", "dev.xlsx")

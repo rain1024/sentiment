@@ -4,6 +4,7 @@ from languageflow.util.file_io import read
 import pandas as pd
 import re
 
+
 def transform(s):
     sentence = {}
     sentence["text"] = s.split("\n")[1]
@@ -43,3 +44,14 @@ if __name__ == '__main__':
     sentences = [transform(s) for s in sentences]
     convert_to_corpus(sentences, corpus_file)
 
+    data = read(join(dirname(__file__), "raw", "restaurant", "1-VLSP2018-SA-Restaurant-train (7-3-2018).txt")).split(
+        "\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "restaurant", "train.xlsx")
+    sentences = [transform(item) for item in data]
+    convert_to_corpus(sentences, corpus_file)
+
+    sentences = read(join(dirname(__file__), "raw", "restaurant", "2-VLSP2018-SA-Restaurant-dev (7-3-2018).txt")).split(
+        "\n\n")
+    corpus_file = join(dirname(__file__), "corpus", "restaurant", "dev.xlsx")
+    sentences = [transform(s) for s in sentences]
+    convert_to_corpus(sentences, corpus_file)

@@ -1,7 +1,7 @@
 from os.path import dirname, join
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from load_data import load_dataset
-from model import TfidfModel
+from model import SVCModel
 
 data_train = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "hotel", "train.xlsx")
 data_dev = join(dirname(dirname(dirname(__file__))), "data", "vlsp2018", "corpus", "hotel", "dev.xlsx")
@@ -12,7 +12,7 @@ X_dev, y_dev = load_dataset(data_dev)
 X = X_train + X_dev
 y = y_train + y_dev
 
-model = TfidfModel("SVC", CountVectorizer(ngram_range=(1, 2), max_features=900))
+model = SVCModel("Tfidf Trigram Full data", TfidfVectorizer(ngram_range=(1, 3)))
 model.load_data(X, y)
 model.fit_transform()
 model.train()
